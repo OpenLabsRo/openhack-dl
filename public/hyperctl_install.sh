@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 set -euo pipefail
 
-OWNER=${OWNER:-openlabs-hq}
-REPO=${REPO:-hyperctl}
-ASSET_NAME=${ASSET_NAME:-hyperctl-linux-amd64}
+OWNER=${OWNER:-openlabsro}
+REPO=${REPO:-openhack-hypervisor}
+ASSET_NAME=${ASSET_NAME:-hyperctl}
 BINARY_NAME=${BINARY_NAME:-hyperctl}
 INSTALL_DIR=${INSTALL_DIR:-/usr/local/bin}
 DOWNLOAD_URL="https://github.com/${OWNER}/${REPO}/releases/latest/download/${ASSET_NAME}"
