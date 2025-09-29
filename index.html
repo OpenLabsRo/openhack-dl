@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1"
+    />
+    <link
+      rel="shortcut icon"
+      href="icons/logo.png"
+      type="image/x-icon"
+    />
+    <title>OpenHack Downloads</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 0 auto;
+        max-width: 900px;
+        padding: 3rem 1.5rem;
+        line-height: 1.6;
+      }
+      pre {
+        background: #0f172a;
+        color: #f8fafc;
+        padding: 1rem;
+        border-radius: 8px;
+        overflow-x: auto;
+      }
+      code {
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco,
+          Consolas, 'Liberation Mono', 'Courier New', monospace;
+      }
+      a {
+        color: #2563eb;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+
+      h1 {
+        color: rgb(255, 98, 0);
+      }
+
+      h2 {
+        color: #0f172a;
+      }
+    </style>
+    <style>
+      .code-container {
+        position: relative;
+        margin-bottom: 1em;
+      }
+      .copy-button {
+        position: absolute;
+        top: 50%;
+        right: 12px;
+        transform: translateY(-50%);
+        background-color: #f0f0f0;
+        border: 1px solid rgb(255, 98, 0);
+        padding: 5px 10px;
+        cursor: pointer;
+        border-radius: 3px;
+        font-size: 0.8em;
+        display: flex; /* To align icon and potential text */
+        align-items: center;
+        justify-content: center;
+        gap: 5px; /* Space between icon and text if any */
+      }
+      .copy-button:hover {
+        background-color: rgb(255, 98, 0);
+      }
+
+      .copy-button:hover img {
+        filter: invert(1);
+      }
+
+      .copy-button img {
+        width: 16px;
+        height: 16px;
+      }
+
+      .copied-icon {
+        filter: invert(1);
+      }
+    </style>
+  </head>
+  <body>
+    <h1 color="rgb(255,98,0)"><code>hyperctl</code> Downloader</h1>
+    <p>
+      Install the latest <code>hyperctl</code> CLI with a single
+      command.
+    </p>
+    <section>
+      <div class="code-container">
+        <pre><code>curl -fsSL https://dl.openhack.org/hyperctl_install.sh | sh</code></pre>
+        <button class="copy-button">
+          <img class="copy-icon" src="icons/copy.svg" alt="Copy" />
+          <img
+            class="copied-icon"
+            src="icons/copied.svg"
+            alt="Copied"
+            style="display: none"
+          />
+        </button>
+      </div>
+      <p>
+        The installer downloads the newest
+        <code>hyperctl</code> release from GitHub and places it in
+        <code>/usr/local/bin</code> by default.
+      </p>
+    </section>
+
+    <br />
+
+    <h1 color="rgb(255,98,0)"><code>hyper-cli</code> Downloader</h1>
+    <p>
+      Install the latest <code>hyper-cli</code> with a single command.
+    </p>
+    <section>
+      <div class="code-container">
+        <pre><code>curl -fsSL https://dl.openhack.org/hyper-cli_install.sh | sh</code></pre>
+        <button class="copy-button">
+          <img class="copy-icon" src="icons/copy.svg" alt="Copy" />
+          <img
+            class="copied-icon"
+            src="icons/copied.svg"
+            alt="Copied"
+            style="display: none"
+          />
+        </button>
+      </div>
+      <p>
+        The installer downloads the newest
+        <code>hyper-cli</code> release from GitHub and places it in
+        <code>/usr/local/bin</code> by default.
+      </p>
+    </section>
+
+    <br />
+
+    <section>
+      <h2>Release source</h2>
+      <p>
+        Binaries are pulled from the latest GitHub release at
+        <a href="https://github.com/openlabsro/openhack-hypervisor"
+          >OpenLabsRo/openhack-hypervisor</a
+        >.
+      </p>
+    </section>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        document
+          .querySelectorAll('.copy-button')
+          .forEach(function (button) {
+            const copyIcon = button.querySelector('.copy-icon')
+            const copiedIcon = button.querySelector('.copied-icon')
+
+            button.addEventListener('click', function () {
+              const codeBlock =
+                this.previousElementSibling.querySelector('code')
+              if (codeBlock) {
+                const textToCopy = codeBlock.innerText
+                navigator.clipboard
+                  .writeText(textToCopy)
+                  .then(function () {
+                    copyIcon.style.display = 'none'
+                    copiedIcon.style.display = 'inline-block'
+                    button.style.backgroundColor = 'rgb(255, 98, 0)'
+                    setTimeout(function () {
+                      copyIcon.style.display = 'inline-block'
+                      copiedIcon.style.display = 'none'
+                      button.style.backgroundColor = '#f0f0f0'
+                    }, 2000)
+                  })
+                  .catch(function (err) {
+                    console.error('Failed to copy: ', err)
+                  })
+              }
+            })
+          })
+      })
+    </script>
+  </body>
+</html>

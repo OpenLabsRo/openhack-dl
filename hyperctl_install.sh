@@ -1,11 +1,11 @@
 #!/usr/bin/env sh
 set -euo pipefail
 
-OWNER=${OWNER:-openlabsro}
-REPO=${REPO:-openhack-hypervisor}
-ASSET_NAME=${ASSET_NAME:-hyperctl}
-BINARY_NAME=${BINARY_NAME:-hyperctl}
-INSTALL_DIR=${INSTALL_DIR:-/usr/local/bin}
+OWNER=openlabsro
+REPO=openhack-hypervisor
+ASSET_NAME=hyperctl
+BINARY_NAME=hyperctl
+INSTALL_DIR=/usr/local/bin
 DOWNLOAD_URL="https://github.com/${OWNER}/${REPO}/releases/latest/download/${ASSET_NAME}"
 
 err() {
@@ -35,7 +35,7 @@ cleanup() { rm -rf "$TMP_DIR"; }
 trap cleanup EXIT INT TERM
 
 TMP_BIN="$TMP_DIR/$BINARY_NAME"
-printf "Downloading %s to %s...\n" "$ASSET_NAME" "$TMP_BIN"
+printf "Downloading %s to temporary folder %s...\n" "$ASSET_NAME" "$TMP_BIN"
 
 curl -fsSL "$DOWNLOAD_URL" -o "$TMP_BIN" || die "Failed to download asset from $DOWNLOAD_URL"
 chmod 0755 "$TMP_BIN"
