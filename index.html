@@ -12,145 +12,414 @@
       type="image/x-icon"
     />
     <title>OpenHack Downloads</title>
+    <meta name="color-scheme" content="dark light" />
     <style>
+      :root {
+        --bg: #000000;
+        --card: #171717;
+        --muted: #94a3b8;
+        --text: #e6eef8;
+        --accent: #ff6200;
+        --glass: rgba(255, 255, 255, 0.03);
+        --radius: 12px;
+        --shadow: 0 6px 18px rgba(2, 6, 23, 0.65);
+      }
+
+      /* Dark-only theme: force dark visuals and hide any light-theme codepaths */
+
+      html,
       body {
-        font-family: sans-serif;
-        margin: 0 auto;
-        max-width: 900px;
-        padding: 3rem 1.5rem;
-        line-height: 1.6;
+        height: 100%;
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Inter, ui-sans-serif, system-ui, -apple-system,
+          'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
       }
+
+      .container {
+        max-width: 960px;
+        margin: 48px auto;
+        padding: 28px;
+      }
+
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 20px;
+      }
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+      }
+      .logo {
+        width: 56px;
+        height: 56px;
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      .brand-logo {
+        width: 56px;
+        height: 56px;
+        border-radius: 12px;
+        object-fit: cover;
+        display: block;
+        box-shadow: var(--shadow);
+      }
+      h1 {
+        margin: 0;
+        font-size: 1.15rem;
+        color: var(--text);
+      }
+      .lead {
+        margin: 2px 0 0 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+      }
+
+      /* theme toggle removed: dark-only site */
+
+      main {
+        display: grid;
+        gap: 16px;
+      }
+      .card {
+        background: var(--card);
+        padding: 16px;
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        overflow: hidden;
+      }
+      .card h2 {
+        margin: 0 0 6px 0;
+        font-size: 1.02rem;
+      }
+      .card p {
+        margin: 0 0 10px 0;
+        color: var(--muted);
+        font-size: 0.95rem;
+        word-break: break-word;
+        overflow-wrap: break-word;
+      }
+
       pre {
-        background: #0f172a;
-        color: #f8fafc;
-        padding: 1rem;
-        border-radius: 8px;
-        overflow-x: auto;
-      }
-      code {
+        margin: 0;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        color: var(--text);
+        padding: 12px;
+        border-radius: 10px;
         font-family: ui-monospace, SFMono-Regular, Menlo, Monaco,
           Consolas, 'Liberation Mono', 'Courier New', monospace;
-      }
-      a {
-        color: #2563eb;
-        text-decoration: none;
-      }
-      a:hover {
-        text-decoration: underline;
-      }
-
-      h1 {
-        color: rgb(255, 98, 0);
+        font-size: 0.92rem;
+        overflow-x: auto;
+        overflow-y: hidden;
+        border: 1px solid rgba(255, 255, 255, 0.02);
+        word-break: break-word;
+        white-space: pre-wrap;
       }
 
-      h2 {
-        color: #0f172a;
-      }
-    </style>
-    <style>
       .code-container {
         position: relative;
-        margin-bottom: 1em;
+        margin-top: 8px;
+        overflow-x: auto;
       }
       .copy-button {
         position: absolute;
         top: 50%;
-        right: 12px;
+        right: 10px;
         transform: translateY(-50%);
-        background-color: #f0f0f0;
-        border: 1px solid rgb(255, 98, 0);
-        padding: 5px 10px;
+        background: var(--card);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        padding: 6px 8px;
         cursor: pointer;
-        border-radius: 3px;
-        font-size: 0.8em;
-        display: flex; /* To align icon and potential text */
+        border-radius: 8px;
+        display: inline-flex;
+        gap: 8px;
         align-items: center;
-        justify-content: center;
-        gap: 5px; /* Space between icon and text if any */
+        overflow: visible;
       }
-      .copy-button:hover {
-        background-color: rgb(255, 98, 0);
+      .copy-button:active {
+        transform: translateY(-50%) scale(0.98);
       }
-
-      .copy-button:hover img {
-        filter: invert(1);
-      }
-
-      .copy-button img {
-        width: 16px;
-        height: 16px;
-      }
-
+      .copy-icon,
       .copied-icon {
-        filter: invert(1);
+        width: 18px;
+        height: 18px;
+        display: block;
+      }
+
+      /* copy icons use external SVG files (icons/copy.svg, icons/copied.svg) */
+      .copy-button img {
+        position: relative;
+        z-index: 1;
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+      .app-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        padding: 10px 14px;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          transparent
+        );
+        border-radius: 10px;
+        color: var(--text);
+        text-decoration: none;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        min-width: 210px;
+        box-shadow: 0 6px 18px rgba(2, 6, 23, 0.45);
+        transition: transform 120ms ease, box-shadow 120ms ease;
+      }
+      .app-btn:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 30px rgba(2, 6, 23, 0.6);
+      }
+      .app-icon {
+        width: 44px;
+        height: 44px;
+        display: grid;
+        place-items: center;
+        border-radius: 8px;
+        background: var(--glass);
+        border: 1px solid rgba(255, 255, 255, 0.03);
+      }
+      .app-meta {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .app-meta .title {
+        font-weight: 600;
+      }
+
+      @media (max-width: 640px) {
+        .container {
+          margin: 24px auto;
+          padding: 16px;
+        }
+        header {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 12px;
+          margin-bottom: 16px;
+        }
+        .brand {
+          width: 100%;
+          gap: 12px;
+        }
+        h1 {
+          font-size: 1rem;
+        }
+        .lead {
+          font-size: 0.9rem;
+        }
+        .card {
+          padding: 12px;
+        }
+        .card h2 {
+          font-size: 0.95rem;
+        }
+        .card p {
+          font-size: 0.9rem;
+        }
+        pre {
+          padding: 10px;
+          font-size: 0.85rem;
+        }
+        .copy-button {
+          padding: 5px 6px;
+        }
+        .copy-icon,
+        .copied-icon {
+          width: 16px;
+          height: 16px;
+        }
+        .actions {
+          gap: 10px;
+          flex-direction: column;
+        }
+        .app-btn {
+          width: 100%;
+          min-width: auto;
+          gap: 10px;
+          padding: 10px 12px;
+        }
+        .app-icon {
+          width: 40px;
+          height: 40px;
+          flex-shrink: 0;
+        }
+        .app-meta .title {
+          font-size: 0.95rem;
+        }
+        .app-meta .subtitle {
+          font-size: 0.85rem;
+        }
       }
     </style>
   </head>
   <body>
-    <h1 color="rgb(255,98,0)"><code>hyperctl</code> Downloader</h1>
-    <p>
-      Install the latest <code>hyperctl</code> CLI with a single
-      command.
-    </p>
-    <section>
-      <div class="code-container">
-        <pre><code>curl -fsSL https://dl.openhack.org/hyperctl_install.sh | sh</code></pre>
-        <button class="copy-button">
-          <img class="copy-icon" src="icons/copy.svg" alt="Copy" />
-          <img
-            class="copied-icon"
-            src="icons/copied.svg"
-            alt="Copied"
-            style="display: none"
-          />
-        </button>
-      </div>
-      <p>
-        The installer downloads the newest
-        <code>hyperctl</code> release from GitHub and places it in
-        <code>/usr/local/bin</code> by default.
-      </p>
-    </section>
+    <div class="container">
+      <header>
+        <div class="brand">
+          <div class="logo" aria-hidden="true">
+            <img
+              src="icons/logo.png"
+              alt="OpenLabs logo"
+              class="brand-logo"
+            />
+          </div>
+          <div>
+            <h1>OpenHack Downloads</h1>
+            <p class="lead">
+              Quick installers and staff mobile apps.
+            </p>
+          </div>
+        </div>
 
-    <br />
+        <!-- dark-only site: theme toggle removed -->
+      </header>
 
-    <h1 color="rgb(255,98,0)"><code>hyper-cli</code> Downloader</h1>
-    <p>
-      Install the latest <code>hyper-cli</code> with a single command.
-    </p>
-    <section>
-      <div class="code-container">
-        <pre><code>curl -fsSL https://dl.openhack.org/hyper-cli_install.sh | sh</code></pre>
-        <button class="copy-button">
-          <img class="copy-icon" src="icons/copy.svg" alt="Copy" />
-          <img
-            class="copied-icon"
-            src="icons/copied.svg"
-            alt="Copied"
-            style="display: none"
-          />
-        </button>
-      </div>
-      <p>
-        The installer downloads the newest
-        <code>hyper-cli</code> release from GitHub and places it in
-        <code>/usr/local/bin</code> by default.
-      </p>
-    </section>
+      <main>
+        <section class="card" aria-labelledby="installer-hyperctl">
+          <h2 id="installer-hyperctl">
+            <code>hyperctl</code> Installer
+          </h2>
+          <p>
+            Install the latest <code>hyperctl</code> using the
+            installer script.
+          </p>
+          <div class="code-container">
+            <pre><code>curl -fsSL https://dl.openhack.org/hyperctl_install.sh | sh</code></pre>
+            <button
+              class="copy-button"
+              aria-label="Copy hyperctl command"
+              title="Copy"
+            >
+              <img
+                src="icons/copy.svg"
+                class="copy-icon"
+                width="18"
+                height="18"
+                alt="Copy"
+                aria-hidden="true"
+              />
+              <img
+                src="icons/copied.svg"
+                class="copied-icon"
+                width="18"
+                height="18"
+                alt="Copied"
+                aria-hidden="true"
+                style="display: none"
+              />
+            </button>
+          </div>
+          <br />
+          <p>
+            The installer downloads the newest release and places it
+            in <code>/usr/local/bin</code> by default.
+          </p>
+          <p
+            style="
+              margin-top: 12px;
+              color: var(--muted);
+              font-size: 0.9rem;
+            "
+          >
+            Binaries are pulled from our GitHub releases:
+            <a
+              href="https://github.com/openlabsro/openhack-hypervisor"
+              target="_blank"
+              rel="noopener noreferrer"
+              style="color: var(--accent); text-decoration: underline"
+              >OpenLabsRo/openhack-hypervisor</a
+            >.
+          </p>
+        </section>
 
-    <br />
+        <section class="card" aria-labelledby="staffapps">
+          <h2 id="staffapps">Staff Mobile Apps</h2>
+          <p>
+            Download staff mobile applications for Android or iOS.
+          </p>
 
-    <section>
-      <h2>Release source</h2>
-      <p>
-        Binaries are pulled from the latest GitHub release at
-        <a href="https://github.com/openlabsro/openhack-hypervisor"
-          >OpenLabsRo/openhack-hypervisor</a
-        >.
-      </p>
-    </section>
+          <div class="actions">
+            <a
+              class="app-btn"
+              href="https://play.google.com/store/apps/details?id=org.openlabs.staff"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div class="app-icon" aria-hidden="true">
+                <img
+                  src="icons/android.svg"
+                  width="28"
+                  height="28"
+                  alt="Android"
+                />
+              </div>
+              <div class="app-meta">
+                <span class="title">Download Android App</span>
+                <span class="subtitle"
+                  >Google Play • Staff build</span
+                >
+              </div>
+            </a>
+
+            <a
+              class="app-btn"
+              href="https://apps.apple.com/app/id000000000"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <div class="app-icon" aria-hidden="true">
+                <img
+                  src="icons/apple.svg"
+                  width="28"
+                  height="28"
+                  alt="Apple"
+                />
+              </div>
+              <div class="app-meta">
+                <span class="title">Download iOS App</span>
+                <span class="subtitle">App Store • Staff build</span>
+              </div>
+            </a>
+          </div>
+        </section>
+      </main>
+      <br /><br />
+
+      <footer>
+        © OpenLabs • Staff distributions & installer scripts
+      </footer>
+    </div>
+
     <script>
       document.addEventListener('DOMContentLoaded', function () {
+        // dark-only: no theme toggle. body is always dark.
         document
           .querySelectorAll('.copy-button')
           .forEach(function (button) {
@@ -159,25 +428,26 @@
 
             button.addEventListener('click', function () {
               const codeBlock =
-                this.previousElementSibling.querySelector('code')
-              if (codeBlock) {
-                const textToCopy = codeBlock.innerText
-                navigator.clipboard
-                  .writeText(textToCopy)
-                  .then(function () {
-                    copyIcon.style.display = 'none'
-                    copiedIcon.style.display = 'inline-block'
-                    button.style.backgroundColor = 'rgb(255, 98, 0)'
-                    setTimeout(function () {
-                      copyIcon.style.display = 'inline-block'
-                      copiedIcon.style.display = 'none'
-                      button.style.backgroundColor = '#f0f0f0'
-                    }, 2000)
-                  })
-                  .catch(function (err) {
-                    console.error('Failed to copy: ', err)
-                  })
-              }
+                this.parentElement.querySelector('code')
+              if (!codeBlock) return
+              const textToCopy = codeBlock.innerText.trim()
+              navigator.clipboard
+                .writeText(textToCopy)
+                .then(function () {
+                  copyIcon.style.display = 'none'
+                  copiedIcon.style.display = 'block'
+                  button.classList.add('copied')
+                  button.style.backgroundColor = 'var(--accent)'
+                  setTimeout(function () {
+                    copyIcon.style.display = 'block'
+                    copiedIcon.style.display = 'none'
+                    button.classList.remove('copied')
+                    button.style.backgroundColor = 'var(--card)'
+                  }, 1600)
+                })
+                .catch(function (err) {
+                  console.error('Failed to copy:', err)
+                })
             })
           })
       })
