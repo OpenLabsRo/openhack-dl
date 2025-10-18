@@ -25,6 +25,11 @@
         --shadow: 0 6px 18px rgba(2, 6, 23, 0.65);
       }
 
+      /* Make sizing predictable so padding/borders don't cause overflow */
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+
       /* Dark-only theme: force dark visuals and hide any light-theme codepaths */
 
       html,
@@ -188,6 +193,7 @@
         text-decoration: none;
         border: 1px solid rgba(255, 255, 255, 0.04);
         min-width: 210px;
+        max-width: calc(100% - 0px);
         box-shadow: 0 6px 18px rgba(2, 6, 23, 0.45);
         transition: transform 120ms ease, box-shadow 120ms ease;
       }
@@ -212,11 +218,15 @@
       .app-meta .title {
         font-weight: 600;
       }
+        /* ...existing code... */
 
       @media (max-width: 640px) {
+        /* Ensure container never exceeds viewport and keeps internal padding */
         .container {
           margin: 24px auto;
           padding: 16px;
+          max-width: 100%;
+          box-sizing: border-box;
         }
         header {
           flex-direction: column;
@@ -258,12 +268,19 @@
         .actions {
           gap: 10px;
           flex-direction: column;
+          align-items: stretch;
+          width: 100%;
+          box-sizing: border-box;
         }
         .app-btn {
           width: 100%;
-          min-width: auto;
+          max-width: 100%;
+          min-width: 0 !important; /* allow shrinking below global min-width */
           gap: 10px;
           padding: 10px 12px;
+          box-sizing: border-box;
+          white-space: normal;
+          overflow-wrap: break-word;
         }
         .app-icon {
           width: 40px;
@@ -275,6 +292,15 @@
         }
         .app-meta .subtitle {
           font-size: 0.85rem;
+        }
+        /* ensure actions container doesn't create horizontal scroll */
+        .actions {
+          width: 100%;
+          box-sizing: border-box;
+        }
+        .app-btn {
+          flex: 1 1 auto;
+          min-width: 0; /* allow shrinking below intrinsic min-width */
         }
       }
     </style>
