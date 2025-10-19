@@ -19,10 +19,10 @@ die() {
 
 usage() {
   cat <<USAGE
-Usage: ./hyperctl_install.sh [--nodeps|-nodeps]
+Usage: ./hyperctl_install_fedora.sh [--nodeps|-nodeps]
 
-Installs the hyperctl binary (and, by default, its Debian-based prerequisites:
-Go 1.25.1, redis-server, vim, and the swag CLI).
+Installs the hyperctl binary (and, by default, its Fedora-based prerequisites:
+Go 1.25.1, redis, vim, git, and the swag CLI).
 
 Options:
   --nodeps, -nodeps  Skip installing prerequisite packages and toolchains.
@@ -133,14 +133,13 @@ install_swag_cli() {
 }
 
 install_dependencies() {
-  printf "Installing hyperctl prerequisites for Debian-based systems...\n"
+  printf "Installing hyperctl prerequisites for Fedora-based systems...\n"
 
-  if ! command -v apt-get >/dev/null 2>&1; then
-    die "apt-get is required to install dependencies automatically. Use --nodeps to skip."
+  if ! command -v dnf >/dev/null 2>&1; then
+    die "dnf is required to install dependencies automatically. Use --nodeps to skip."
   fi
 
-  run_privileged apt-get update
-  run_privileged apt-get install -y curl redis-server vim
+  run_privileged dnf install -y curl git redis vim
 
   install_go_toolchain
   append_path_entry "/usr/local/go/bin"

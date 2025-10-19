@@ -1,0 +1,31 @@
+Shared requirements
+- Go toolchain 1.25.1 (needed to build and run both Go services)
+- Redis server (`redis-server` on PATH; used as the primary data store/cache for both services)
+- Swag CLI (`swag` from github.com/swaggo/swag/cmd/swag; required whenever regenerating Swagger docs)
+- Git CLI (needed by Go tooling when fetching modules and installing swag)
+
+OpenHack Hypervisor specific
+- systemctl (used by the bundled `hyperctl` tooling to manage the service)
+- vim (default editor expected by `hyperctl` prerequisite checks)
+
+OpenHack Backend specific
+- No additional runtime prerequisites beyond the shared items above
+
+Debian setup commands
+```bash
+sudo apt-get update
+sudo apt-get install -y curl git redis-server vim
+
+curl -fsSL https://go.dev/dl/go1.25.1.linux-amd64.tar.gz -o /tmp/go1.25.1.linux-amd64.tar.gz
+sudo rm -rf /usr/local/go
+sudo tar -C /usr/local -xzf /tmp/go1.25.1.linux-amd64.tar.gz
+
+# Ensure Go is on PATH for future shells
+if ! grep -q '/usr/local/go/bin' "$HOME/.profile"; then
+  echo 'export PATH=$PATH:/usr/local/go/bin' >> "$HOME/.profile"
+fi
+export PATH=$PATH:/usr/local/go/bin
+
+go version
+go install github.com/swaggo/swag/cmd/swag@latest
+```
