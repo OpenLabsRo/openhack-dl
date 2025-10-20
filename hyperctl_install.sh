@@ -73,6 +73,8 @@ append_path_entry() {
   else
     printf "Warning: %s is not writable; ensure %s is on PATH manually.\n" "$PROFILE_PATH" "$ENTRY"
   fi
+  
+  source ~/.profile
 }
 
 install_go_toolchain() {
@@ -139,7 +141,7 @@ install_dependencies() {
   fi
 
   run_privileged apt-get update
-  run_privileged apt-get install -y curl redis-server vim
+  run_privileged apt-get install -y curl redis-server vim git
 
   install_go_toolchain
   append_path_entry "/usr/local/go/bin"

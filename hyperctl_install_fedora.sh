@@ -73,6 +73,8 @@ append_path_entry() {
   else
     printf "Warning: %s is not writable; ensure %s is on PATH manually.\n" "$PROFILE_PATH" "$ENTRY"
   fi
+
+  source ~/.profile
 }
 
 install_go_toolchain() {
