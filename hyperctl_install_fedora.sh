@@ -1,5 +1,4 @@
 #!/usr/bin/env sh
-set -euo pipefail
 
 OWNER=openlabsro
 REPO=openhack-hypervisor
