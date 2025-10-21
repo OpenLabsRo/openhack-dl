@@ -21,7 +21,7 @@ usage() {
 Usage: ./hyperctl_install.sh [--nodeps|-nodeps]
 
 Installs the hyperctl binary (and, by default, its Debian-based prerequisites:
-Go 1.25.1, redis-server, vim, and the swag CLI).
+Go 1.25.1, redis-server, nginx, certbot integration, vim, and the swag CLI).
 
 Options:
   --nodeps, -nodeps  Skip installing prerequisite packages and toolchains.
@@ -141,7 +141,7 @@ install_dependencies() {
   fi
 
   run_privileged apt-get update
-  run_privileged apt-get install -y curl redis-server vim git
+  run_privileged apt-get install -y curl redis-server nginx python3-certbot-nginx vim git
 
   install_go_toolchain
   append_path_entry "/usr/local/go/bin"
