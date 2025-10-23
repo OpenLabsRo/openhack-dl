@@ -264,7 +264,7 @@ install_dependencies_debian() {
   fi
 
   run_privileged apt-get update
-  run_privileged apt-get install -y curl redis-server nginx python3-certbot-nginx vim git
+  run_privileged apt-get install -y curl redis-server nginx certbot python3-certbot-nginx vim git
 
   install_go_toolchain
 
