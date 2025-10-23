@@ -245,7 +245,7 @@ setup_sudoers() {
   printf "Configuring sudoers for openhack user (service account)...\n"
 
   OPENHACK_SUDOERS_FILE="/etc/sudoers.d/openhack"
-  OPENHACK_SUDOERS_CONTENT="${OPENHACK_USER} ALL=(ALL) NOPASSWD: /usr/bin/tee, /usr/bin/systemctl"
+  OPENHACK_SUDOERS_CONTENT="${OPENHACK_USER} ALL=(ALL) NOPASSWD: /usr/bin/tee, /usr/bin/systemctl, /usr/bin/rm"
 
   # Write sudoers file for openhack user
   printf "%s\n" "$OPENHACK_SUDOERS_CONTENT" | run_privileged tee "$OPENHACK_SUDOERS_FILE" >/dev/null
